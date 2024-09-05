@@ -10,16 +10,18 @@ use League\Csv\Exception;
 
 class ProcessFileController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $filename = basename(url()->full());
         $fullPath = storage_path('app/public/' . $filename);
         $csv = Reader::createFromPath($fullPath, 'r');
         $csv->setHeaderOffset(0);
         $headers = $csv->getHeader();
-        return view('select',compact('filename','headers'));
+        return view('select', compact('filename', 'headers'));
     }
 
-    public function store(HeadersRequest $request){
+    public function store(HeadersRequest $request)
+    {
         $filename = $request->filename;
         $fullPath = storage_path('app/public/' . $filename);
 
@@ -30,19 +32,19 @@ class ProcessFileController extends Controller
                 $records = $csv->getRecords();
                 $header = $csv->getHeader();
                 $collection = collect($records)->map(function ($record) use ($header) {
-                        return array_combine($header, $record);
+                    return array_combine($header, $record);
                 })->filter(function ($record) {
-                        return !in_array('', $record, true);
+                    return !in_array('', $record, true);
                 });
 
                 foreach ($collection as $record) {
                     People::updateOrCreate([
                         'firstname' => $record[$request->input('firstname')],
-                        'lastname' =>  $record[$request->input('lastname')],
-                        'gender' =>  $record[$request->input('gender')],
-                        'age' =>  intval($record[$request->input('age')]),
-                        'country' =>  $record[$request->input('country')],
-                        'locale' =>  $record[$request->input('locale')],
+                        'lastname' => $record[$request->input('lastname')],
+                        'gender' => $record[$request->input('gender')],
+                        'age' => intval($record[$request->input('age')]),
+                        'country' => $record[$request->input('country')],
+                        'locale' => $record[$request->input('locale')],
                     ]);
                 }
 
@@ -57,8 +59,9 @@ class ProcessFileController extends Controller
 
     }
 
-    public function show(Request $request){
-        $peoples= People::all();
-        return view('show',compact('peoples'));
+    public function show(Request $request)
+    {
+        $peoples = People::all();
+        return view('show', compact('peoples'));
     }
 }

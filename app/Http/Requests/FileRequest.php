@@ -22,16 +22,16 @@ class FileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'files'=> 'required,file|mimes:csv|max:2048',
+            'files' => 'required,file|mimes:csv|max:2048',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'files.required'=> 'Files is required',
-            'files.mimes'=> 'Only the csv files are allowed',
-            'file.max'=> 'Max file size is 2MB',
+            'files.required' => 'Files is required',
+            'files.mimes' => 'Only the csv files are allowed',
+            'file.max' => 'Max file size is 2MB',
         ];
     }
 }

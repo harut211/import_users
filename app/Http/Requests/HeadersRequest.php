@@ -22,11 +22,11 @@ class HeadersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname'=> ['required','string'],
-            'lastname'=> ['required','string'],
-            'age'=> ['required'],
-            'country'=> ['required','string'],
-            'locale'=> ['required','string'],
+            'firstname' => ['required', 'string'],
+            'lastname' => ['required', 'string'],
+            'age' => ['required'],
+            'country' => ['required', 'string'],
+            'locale' => ['required', 'string'],
         ];
     }
 }

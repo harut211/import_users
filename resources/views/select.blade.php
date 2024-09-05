@@ -7,7 +7,7 @@
 
         <div class="card">
             @if(session('success'))
-                <div>{{session('success')}}</div>
+                <div class="alert alert-success">{{session('success')}}</div>
             @endif
             <div class="card-body d-flex justify-content-between"
                  style=" width: 600px; margin-left: auto;margin-right: auto;">

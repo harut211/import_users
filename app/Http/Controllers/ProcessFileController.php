@@ -14,10 +14,14 @@ class ProcessFileController extends Controller
     {
         $filename = basename(url()->full());
         $fullPath = storage_path('app/public/' . $filename);
-        $csv = Reader::createFromPath($fullPath, 'r');
-        $csv->setHeaderOffset(0);
-        $headers = $csv->getHeader();
-        return view('select', compact('filename', 'headers'));
+
+        if (!empty($filename) && file_exists($fullPath)) {
+            $csv = Reader::createFromPath($fullPath, 'r');
+            $csv->setHeaderOffset(0);
+            $headers = $csv->getHeader();
+            return view('select', compact('filename', 'headers'));
+        }
+        return back()->with('error', 'File not found');
     }
 
     public function store(HeadersRequest $request)

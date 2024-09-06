@@ -42,14 +42,18 @@ class ProcessFileController extends Controller
                 });
 
                 foreach ($collection as $record) {
-                    People::updateOrCreate([
-                        'firstname' => $record[$request->input('firstname')],
-                        'lastname' => $record[$request->input('lastname')],
-                        'gender' => $record[$request->input('gender')],
-                        'age' => intval($record[$request->input('age')]),
-                        'country' => $record[$request->input('country')],
-                        'locale' => $record[$request->input('locale')],
-                    ]);
+                    try {
+                        People::updateOrCreate([
+                            'firstname' => $record[$request->input('firstname')],
+                            'lastname' => $record[$request->input('lastname')],
+                            'gender' => $record[$request->input('gender')],
+                            'age' => intval($record[$request->input('age')]),
+                            'country' => $record[$request->input('country')],
+                            'locale' => $record[$request->input('locale')],
+                        ]);
+                    } catch (\Exception $exception) {
+                        return back()->with('error', $exception->getMessage());
+                    }
                 }
 
                 return back()->with('success', 'Records saved');

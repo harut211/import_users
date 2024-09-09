@@ -65,9 +65,14 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function(result){
-                let  url = "http://127.0.0.1:8000/select-headers/" + result;
-                window.location.replace(url);
-                console.log(result);
+                try {
+                    let  url = "http://127.0.0.1:8000/select-headers/" + result;
+                    window.location.replace(url);
+                    console.log(result);
+                } catch (error) {
+                    alert(error.message);
+                }
+
             },
             error: function(error) {
                alert('Something went wrong... ');

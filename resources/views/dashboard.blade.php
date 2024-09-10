@@ -1,8 +1,6 @@
 @vite(['resources/sass/app.scss', 'resources/js/app.js','resources/js/custom.js','resources/css/custom.css'])
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined">
-<link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" >
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -17,13 +15,13 @@
                     <div class="container mt-5">
                         <div id="file-upload" class="file-upload">
                             <p>Drag & drop files here or click to upload</p>
-                            <input type="file" id="file-input" multiple class="form-control">
+                            <input type="file" id="file-input" multiple class="form-control" accept=".csv">
                         </div>
                         <div id="file-list" class="mt-3"></div>
                         @if(!empty($errors))
                             <div>{{$errors->first()}}</div>
                         @endif
-                        <button class="btn btn-success file-upload">submit</button>
+                        <button class="btn btn-success file-send">submit</button>
                     </div>
                 </div>
             </div>

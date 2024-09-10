@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/select-headers/{filename}', [ProcessFileController::class, 'index'])->name('select-headers');
     Route::post('/store',[ProcessFileController::class, 'store'])->name('store');
     Route::get('/show',[ProcessFileController::class, 'show'])->name('show');
+    Route::get('/search',[ProcessFileController::class, 'search'])->name('search');
 });
 
 require __DIR__.'/auth.php';

@@ -8,15 +8,18 @@ class FileUploadController extends Controller
 {
     public function upload(Request $request)
     {
-        if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
-                $fileName = $file->getClientOriginalName();
-                $fileName = sha1($fileName) . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('/public', $fileName);
-            }
-            return $fileName;
+        $validated = $request->validate([
+            'file' => 'required|file|mimes:csv|max:2048',
+        ]);
+        if ($validated) {
+            $file = $request->file('file');
+            $fileName = $file->getClientOriginalName();
+            $fileName = sha1($fileName) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('/public', $fileName);
+            $filename = pathinfo($fileName, PATHINFO_FILENAME);
+            return $filename;
         } else {
-            return back()->with('error', 'No files found');
+            return 'No files found';
         }
     }
 

@@ -31,6 +31,7 @@ class ProcessFileController extends Controller
         $fullPath = storage_path('app/public/' . $filename);
 
         if (file_exists($fullPath) && is_readable($fullPath)) {
+
             try {
                 $csv = Reader::createFromPath($fullPath);
                 $csv->setHeaderOffset(0);
@@ -39,7 +40,7 @@ class ProcessFileController extends Controller
                 $collection = collect($records)->map(function ($record) use ($header) {
                     return array_combine($header, $record);
                 });
-
+                $unsaved = [];
                 foreach ($collection as $record) {
                     if ($record['First name'] && $record['Lastname'] && $record['Gender'] && $record['Age'] && $record['Country']) {
                         try {
@@ -55,13 +56,13 @@ class ProcessFileController extends Controller
                             return back()->with('error', 'Your fields is invalid');
                         }
                     } else {
-                        $fileName = 'unsaved.txt';
-                        $record = serialize($record);
-                        Storage::disk('local')->put($fileName, $record);
+                        array_push($unsaved, $record);
                     }
-
                 }
+                $fileName = 'unsaved.txt';
 
+                $unsaved = serialize($unsaved);
+                Storage::disk('local')->put($fileName, $unsaved);
                 return back()->with('success', 'Records saved');
 
             } catch (Exception $e) {
@@ -70,7 +71,6 @@ class ProcessFileController extends Controller
         } else {
             return back()->with('error', 'File not found or not readable');
         }
-
     }
 
     public function show(Request $request)

@@ -47,7 +47,7 @@ $(document).ready(function () {
             alert('Please select or drop a file first.');
             return;
         }
-
+1
         let formData = new FormData();
         formData.append('file', uploadedFile);
 
